@@ -33,7 +33,7 @@ const timeWord = timeParam => {
     
     // First, we will work on converting the hour into a word. 
     // The if statement will subtract the hours by 12 if it is greater than 11 to get the correct word in the array above.
-    // This will also help to determin if it is morning or afternoon.
+    // This will also help to determine if it is morning or afternoon.
     if (time[0] > 11) {
         time[0] = time[0] - 12;
         isAM = false;
