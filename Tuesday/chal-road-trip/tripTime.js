@@ -1,17 +1,55 @@
 const tripTime = (arr) => {
+    
+    // I don't believe we're going to manipulate the parameter at all but just in case for now.
+    let param = arr;
+    
     let result = {
         avgSpeedLimits: [], 
         segmentTimes: [], 
-        totalTime: null
+        totalTime: 0
     }
 
+    // For now, it's easiest to do it first with two for loops. It will probably be easier to be done with .map or something.
+    for (let stpCount = 0; stpCount < arr.length; stpCount++) {
 
-    return result
+        // We need to keep track of the total weight to calculate the weighted average.
+        let totalWeight = 0;
+        let total = 0;
+
+        for (let spdCount = 0; spdCount < param[stpCount].speedLimits.length; spdCount++) {
+            
+            // We don't need a variable to keep track of the weight, but for the sake of readability, it makes sense to.
+            // Same can be said for the speed. Both variables are used for calculating the distance travelled.
+            let weight = param[stpCount].speedLimits[spdCount].distance;
+            let speed = param[stpCount].speedLimits[spdCount].speedLimit;
+
+            // Below are the calculations per iteration we need (total weight and total distance travelled) for average weight.
+            totalWeight += weight;
+            total += speed * weight;
+
+            // Then we calculate the time by dividing the distance (weight) by speed.
+            let mathCalc = +(weight / speed).toFixed(2);
+
+            // Then we push and add them where they are needed.
+            result.totalTime += mathCalc;
+            result.segmentTimes.push(mathCalc);
+        }
+
+        // Now we can calculate the average speed using the total distance (total) divided by the total weight (total distance).
+        let mathCalc = +(total / totalWeight).toFixed(2);
+
+        // Then push that math into the avgSpeedLimits of our result.
+        result.avgSpeedLimits.push(mathCalc);
+    }
+
+    // And lastly, we make sure the total time is rounded properly because we don't need more than 2 decimal places usually.
+    result.totalTime = +result.totalTime.toFixed(2);
+
+    return console.log(result);
 }
 
 // UNCOMMENT THE FUNCTION CALL AT
 // THE BOTTOM BEFORE RUNNING THE FILE
-
 
 const stops = [
     {
@@ -101,5 +139,4 @@ const stops = [
 
 ]
 
-
-// tripTime(stops)
+tripTime(stops);
